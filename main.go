@@ -48,12 +48,12 @@ var (
 	postgresDB         = "postgres"
 	postgresDBUser     = ""
 	postgresDBPassword = ""
-	// postgresDBSSLMode     = "disable"
-	mongoDBHost     = ""
-	mongoDBPort     = 27017
-	mongoDB         = ""
-	mongoDBUser     = ""
-	mongoDBPassword = ""
+	postgresDBSSLMode  = "disable"
+	mongoDBHost        = ""
+	mongoDBPort        = 27017
+	mongoDB            = ""
+	mongoDBUser        = ""
+	mongoDBPassword    = ""
 )
 
 const (
@@ -148,8 +148,8 @@ func validatePostgresDBConnection() error {
 	if len(postgresDBUser) != 0 && len(postgresDBPassword) != 0 {
 		log.Info("validating postgres database connection")
 		// form psql connection info
-		psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable connect_timeout=10",
-			postgresDBHost, postgresDBPort, postgresDBUser, postgresDBPassword, postgresDB)
+		psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s connect_timeout=10",
+			postgresDBHost, postgresDBPort, postgresDBUser, postgresDBPassword, postgresDB, postgresDBSSLMode)
 		// open postgres connection
 		db, err := sql.Open("postgres", psqlInfo)
 		if err != nil {
@@ -235,7 +235,7 @@ func init() {
 	rootCmd.Flags().StringVarP(&postgresDB, "postgres-database", "b", postgresDB, "Postgres database name")
 	rootCmd.Flags().StringVarP(&postgresDBUser, "postgres-user", "u", postgresDBUser, "Postgres database user")
 	rootCmd.Flags().StringVarP(&postgresDBPassword, "postgres-password", "p", postgresDBPassword, "Postgres database password")
-	// rootCmd.Flags().StringVarP(&postgresDBSSLMode, "postgres-ssl-mode", "l", postgresDBSSLMode, "Postgres database SSL mode enabled/disabled")
+	rootCmd.Flags().StringVarP(&postgresDBSSLMode, "postgres-ssl-mode", "l", postgresDBSSLMode, "Postgres database SSL mode")
 	rootCmd.Flags().StringVarP(&mongoDBHost, "mongo-host", "m", mongoDBHost, "Mongo database host")
 	rootCmd.Flags().IntVarP(&mongoDBPort, "mongo-port", "r", mongoDBPort, "Mongo database port")
 	rootCmd.Flags().StringVarP(&mongoDB, "mongo-database", "g", mongoDB, "Mongo database name")
