@@ -151,6 +151,13 @@ func validatePostgresDBConnection() error {
 		if len(postgresDBSSLMode) == 0 {
 			postgresDBSSLMode = "disable"
 		}
+
+		switch strings.ToLower(postgresDBSSLMode) {
+		case "true":
+			postgresDBSSLMode = "require"
+		case "false":
+			postgresDBSSLMode = "disable"
+		}
 		psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s connect_timeout=10",
 			postgresDBHost, postgresDBPort, postgresDBUser, postgresDBPassword, postgresDB, postgresDBSSLMode)
 		// open postgres connection
