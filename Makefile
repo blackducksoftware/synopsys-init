@@ -25,7 +25,7 @@ OUTDIR = _output
 all: local-compile
 
 compile: clean
-	docker run --rm -v ${CURRENT_DIR}:/go/src/github.com/blackducksoftware/synopsys-init/ -w /go/src/github.com/blackducksoftware/synopsys-init -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 golang:1.13 go build -o init
+	docker run --rm -v ${CURRENT_DIR}:/go/src/github.com/blackducksoftware/synopsys-init/ -w /go/src/github.com/blackducksoftware/synopsys-init -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 golang:1.16 go build -o init
 
 container: compile
 	docker build -t $(REGISTRY)/$(PREFIX)synopsys-init:$(TAG) .
@@ -34,7 +34,7 @@ push: container
 	$(PREFIX_CMD) docker $(DOCKER_OPTS) push $(REGISTRY)/$(PREFIX)synopsys-init:$(TAG)
 
 test:
-	docker run --rm -v ${CURRENT_DIR}:/go/src/github.com/blackducksoftware/synopsys-init/ -w /go/src/github.com/blackducksoftware/synopsys-init -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 golang:1.13 go test
+	docker run --rm -v ${CURRENT_DIR}:/go/src/github.com/blackducksoftware/synopsys-init/ -w /go/src/github.com/blackducksoftware/synopsys-init -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 golang:1.16 go test
 
 clean:
 	rm -rf init
